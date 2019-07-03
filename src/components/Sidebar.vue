@@ -1,17 +1,17 @@
 <template lang="html">
   <div id="parentx">
     <div>
-      <vs-navbar v-model="activeItem" class="navbar">
+      <vs-navbar v-model="sidebar.activeItem" class="navbar">
         <div slot="title">
           <vs-navbar-title>
             <vs-button
-              @click=";(active = !active), (notExpand = false)"
+              @click.stop=";(sidebar.active = true), (sidebar.notExpand = false)"
               color="linear-gradient(to bottom right, #7fd625, #009345)"
               icon="menu"
               height="10px"
             >
             </vs-button>
-            <span class="title">{{ title }}</span>
+            <span class="title">{{ sidebar.app_title }}</span>
           </vs-navbar-title>
         </div>
         <vs-navbar-item index="0">
@@ -23,38 +23,41 @@
         <vs-navbar-item index="2">
           <a href="#">Update</a>
         </vs-navbar-item>
-        <vs-input icon="search" v-model="search" />
+        <vs-button
+          class="logout_button"
+          color="dark"
+          size="small"
+          type="gradient"
+          icon="exit_to_app"
+          >logout</vs-button
+        >
       </vs-navbar>
     </div>
     <vs-sidebar
-      :reduce="reduce"
-      :reduce-not-hover-expand="notExpand"
+      :reduce="sidebar.reduce"
+      :reduce-not-hover-expand="sidebar.notExpand"
       parent="body"
       default-index="1"
       color="success"
       class="sidebarx"
-      spacer
-      v-model="active"
+      v-model="sidebar.active"
     >
       <div class="header-sidebar" slot="header">
-        <vs-avatar size="70px" />
+        <vs-avatar size="70px" />{{ currentusername }}
       </div>
       <vs-sidebar-group open title="Application">
-        <vs-sidebar-item index="1" icon="menu" @click="reduce = !reduce">
-          Toggle Sidebar
-        </vs-sidebar-item>
         <vs-sidebar-item index="5" icon="verified_user">
           Configurations
         </vs-sidebar-item>
         <vs-sidebar-group title="Store">
-          <vs-sidebar-item index="2.1" icon="store">
-            Store
+          <vs-sidebar-item index="2.1" icon="store" to="/home">
+            NLP
           </vs-sidebar-item>
           <vs-sidebar-item index="2.2" icon="nature_people">
-            Nature
+            OpenCV
           </vs-sidebar-item>
           <vs-sidebar-item index="2.3" icon="style">
-            Style
+            SomeMagic
           </vs-sidebar-item>
         </vs-sidebar-group>
         <vs-sidebar-item index="2" icon="gavel">
@@ -85,14 +88,14 @@
 
 <script>
 export default {
-  data: () => ({
-    active: false,
-    notExpand: false,
-    reduce: true,
-    activeItem: 0,
-    search: '',
-    title: 'Hertz.io'
-  })
+  computed: {
+    sidebar() {
+      return this.$store.state.sidebar
+    },
+    currentusername() {
+      return this.$store.getters.currentUserName
+    }
+  }
 }
 </script>
 
@@ -106,6 +109,11 @@ export default {
     font-family: 'Audiowide', cursive;
     font-weight: 600;
     font-size: 30px;
+  }
+
+  .logout_button {
+    position: relative;
+    left: 50px;
   }
 }
 

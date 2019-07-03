@@ -5,45 +5,151 @@
         <div class="overlay-left">
           <h2>Welcome Back!</h2>
           <p>Log in to your Hertz account</p>
-          <button class="invert" id="signIn" @click="signUp = !signUp">Sign In</button>
+          <button class="invert" id="signIn" @click="signUp = !signUp">
+            Sign In
+          </button>
         </div>
         <div class="overlay-right">
           <h2>Hello, Amigo!</h2>
           <p>
             Not a member yet?
-            <br>Sign Up Now
+            <br />Sign Up Now
           </p>
-          <button class="invert" id="signUp" @click="signUp = !signUp">Sign Up</button>
+          <button class="invert" id="signUp" @click="signUp = !signUp">
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
-    <form class="sign-up" action="#">
-      <h2>Create login</h2>
+    <form class="sign-up">
+      <h2>Create Account</h2>
       <div>Use your email for registration</div>
-      <input type="text" placeholder="Name">
-      <input type="email" placeholder="Email">
-      <input type="password" placeholder="Password">
-      <button>Sign Up</button>
+      <input
+        type="text"
+        v-model="register.username"
+        placeholder="Name"
+        required
+      />
+      <input
+        type="email"
+        v-model="register.email"
+        placeholder="Email"
+        required
+      />
+      <input
+        type="password"
+        v-model="register.password"
+        placeholder="Password"
+        required
+      />
+      <button @click>Sign Up</button>
+      <!-- <input
+        type="submit"
+        class="submit_button"
+        name="Sign_up"
+        value="Sign Up"
+      />-->
     </form>
-    <form class="sign-in" action="./about">
+    <form class="sign-in" action="#">
       <h2>Sign In</h2>
       <div>Use your account</div>
-      <input type="email" placeholder="Email">
-      <input type="password" placeholder="Password">
-      <button>Sign Up</button>
+      <input type="email" v-model="login.email" placeholder="Email"/>
+      <input
+        type="password"
+        v-model="login.password"
+        placeholder="Password"
+      />
+      <button @click.stop="loginvalidation">Sign In</button>
+      <!-- <input
+        type="submit"
+        class="submit_button"
+        name="Sign_in"
+        value="Sign In"
+      />-->
       <a href="#">Forgot your password?</a>
     </form>
   </div>
 </template>
 
 <script>
+import { login } from '../helper/login_auth'
+import { log } from 'util';
+
 export default {
   name: 'signin',
   data: () => {
     return {
-      signUp: false
+      signUp: false,
+      login: {
+        email: '',
+        password: ''
+      },
+      register: {
+        username: '',
+        email: '',
+        password: ''
+      }
     }
-  }
+  },
+  methods: {
+    loginvalidation(){
+      let email = this.login.email
+      let password = this.login.password
+
+      if (email.length != 0) 
+      {
+        if (password.length !=0) {
+            this.authenticate()
+          } 
+      else {
+          this.$vs.notify({
+          color: 'danger',
+          icon: 'error',
+          position: 'top-right',
+          title: 'Login Error',
+          text: 'password can not be empty'  
+              })  
+              } 
+              }
+      else{
+          this.$vs.notify({
+          color: 'danger',
+          icon: 'error',
+          position: 'top-right',
+          title: 'Login Error',
+          text: 'email can not be empty'
+        })
+      }
+    },
+    authenticate() {
+      
+      this.$store.dispatch('login')
+      login(this.$data.login)
+        .then(res => {
+          console.log(res);
+          
+          this.$store.commit('loginSuccess', res)
+          this.$router.push({ path: '/about' })
+        })
+        .catch(error => {
+          
+          // this.$store.commit('loginFailed', error )
+          this.$vs.notify({
+          color: 'danger',
+          icon: 'error',
+          position: 'top-right',
+          title: 'Login Error',
+          text: error   })
+          
+        })
+    }
+  },
+  computed: {
+    authError() {
+      return this.$store.state.authError
+    }  
+    },
+  
 }
 </script>
 
@@ -120,6 +226,18 @@ a {
   margin: 15px 0;
   font-size: 1rem;
 }
+
+// .submit_button {
+//   border-radius: 20px;
+//   border: 0px;
+//   color: #fff;
+//   font-size: 1rem;
+//   font-weight: bold;
+//   padding: 10px 40px;
+//   letter-spacing: 1px;
+//   cursor: pointer;
+//   transition: transform 0.1s ease-in;
+// }
 
 button {
   border-radius: 20px;

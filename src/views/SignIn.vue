@@ -17,6 +17,9 @@ export default {
   name: 'SignIn',
   components: {
     Login
+  },
+  beforeMount() {
+    this.$store.state.showsidebar.value = false
   }
 }
 </script>

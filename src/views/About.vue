@@ -1,20 +1,25 @@
 <template>
   <div class="about">
-    <div class="sidebars">
-      <Sidebar></Sidebar>
-    </div>
     <div class="content">
       <vs-row vs-justify="center">
-        <vs-col class="card" type="flex" vs-justify="center" vs-align="center" vs-w="3">
+        <vs-col
+          class="card"
+          type="flex"
+          vs-justify="center"
+          vs-align="center"
+          vs-w="3"
+        >
           <vs-card actionable class="cardx">
             <div slot="header">
               <h3>Hello world !</h3>
             </div>
             <div slot="media">
-              <img src="../assets/card.png">
+              <img src="../assets/card.png" />
             </div>
             <div>
-              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit</span>
+              <span
+                >Lorem ipsum dolor sit amet, consectetur adipiscing elit</span
+              >
             </div>
             <div slot="footer">
               <vs-row vs-justify="flex-end">
@@ -24,16 +29,24 @@
             </div>
           </vs-card>
         </vs-col>
-        <vs-col class="card" type="flex" vs-justify="center" vs-align="center" vs-w="3">
+        <vs-col
+          class="card"
+          type="flex"
+          vs-justify="center"
+          vs-align="center"
+          vs-w="3"
+        >
           <vs-card actionable class="cardx">
             <div slot="header">
               <h3>Hello world !</h3>
             </div>
             <div slot="media">
-              <img src="../assets/card.png">
+              <img src="../assets/card.png" />
             </div>
             <div>
-              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit</span>
+              <span
+                >Lorem ipsum dolor sit amet, consectetur adipiscing elit</span
+              >
             </div>
             <div slot="footer">
               <vs-row vs-justify="flex-end">
@@ -51,13 +64,13 @@
 <script>
 // @ is an alias to /src
 import 'vuesax/dist/vuesax.css'
-import Sidebar from '@/components/Sidebar.vue'
+// import Sidebar from '@/components/Sidebar.vue'
 // import Sidebar from '@/components/sidebar.vue'
 
 export default {
   name: 'about',
-  components: {
-    Sidebar
+  beforeMount() {
+    this.$store.state.showsidebar.value = true
   }
 }
 </script>
