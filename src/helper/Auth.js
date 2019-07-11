@@ -1,10 +1,11 @@
 
 import axios from 'axios'
 
-var headers = {
+const headers = {
   'Content-Type': 'application/json',
   'X-Requested-With': 'XMLHttpRequest'
 }
+
 export function login(credentials) {
   console.log("I am in login AUTH");
   console.log(credentials);
@@ -22,6 +23,21 @@ export function login(credentials) {
       })
   })
 }
+
+export async function register(credentials) {
+  return new Promise((res, rej) => {
+    axios
+      .post('http://0.0.0.0:8001/hertz/register', credentials, { headers: headers })
+      .then(response => {
+        res(response.data)
+      })
+      .catch(err => {
+        let err_message = err.response.data.Error;
+        rej(err_message);
+      })
+  })
+}
+
 
 export function getLocalUser() {
   const userStr = localStorage.getItem('user')

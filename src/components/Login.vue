@@ -28,29 +28,21 @@
         type="text"
         v-model="register.username"
         placeholder="Name"
-        required
+        
       />
       <input
-        type="email"
+        type="text"
         v-model="register.email"
         placeholder="Email"
-        required
       />
       <input
         type="password"
         v-model="register.password"
         placeholder="Password"
-        required
       />
-      <button @click>Sign Up</button>
-      <!-- <input
-        type="submit"
-        class="submit_button"
-        name="Sign_up"
-        value="Sign Up"
-      />-->
+      <button @click="Registervalidation">Sign Up</button>
     </form>
-    <form class="sign-in" action="#">
+    <form class="sign-in">
       <h2>Sign In</h2>
       <div>Use your account</div>
       <input type="email" v-model="login.email" placeholder="Email"/>
@@ -60,20 +52,15 @@
         placeholder="Password"
       />
       <button @click.stop="loginvalidation">Sign In</button>
-      <!-- <input
-        type="submit"
-        class="submit_button"
-        name="Sign_in"
-        value="Sign In"
-      />-->
       <a href="#">Forgot your password?</a>
     </form>
   </div>
 </template>
 
 <script>
-import { login } from '../helper/login_auth'
+import { login,register } from '../helper/Auth'
 import { log } from 'util';
+import { Login_validator,Register_validator } from '../helper/Validator'
 
 export default {
   name: 'signin',
@@ -93,35 +80,24 @@ export default {
   },
   methods: {
     loginvalidation(){
-      let email = this.login.email
+     let email = this.login.email
       let password = this.login.password
-
-      if (email.length != 0) 
+      let validation_res = Login_validator(email,password);
+      if(validation_res["status"] == true)
       {
-        if (password.length !=0) {
-            this.authenticate()
-          } 
-      else {
-          this.$vs.notify({
-          color: 'danger',
-          icon: 'error',
-          position: 'top-right',
-          title: 'Login Error',
-          text: 'password can not be empty'  
-              })  
-              } 
-              }
+        this.Loginauthenticate()
+      }
       else{
           this.$vs.notify({
           color: 'danger',
           icon: 'error',
           position: 'top-right',
           title: 'Login Error',
-          text: 'email can not be empty'
-        })
+          text:  validation_res["err"]
+        })  
       }
     },
-    authenticate() {
+    Loginauthenticate() {
       
       this.$store.dispatch('login')
       login(this.$data.login)
@@ -142,7 +118,49 @@ export default {
           text: error   })
           
         })
-    }
+    },
+    Registervalidation(){
+      var username = this.register.username
+      var email = this.register.email
+      let password = this.register.password
+      let validation_res = Register_validator(username,email,password);
+
+      if(validation_res["status"] == true)
+      {
+        // console.log(validation_res);
+        this.Registerauthenticate()
+      }
+
+      else{
+          this.$vs.notify({
+          color: 'danger',
+          icon: 'error',
+          position: 'top-right',
+          title: 'Login Error',
+          text:  validation_res["err"]
+              })  
+
+      }
+  },
+    Registerauthenticate() {
+      
+      // this.$store.dispatch('login')
+      register(this.$data.register)
+        .then(res => {
+          console.log(res);
+          this.$store.commit('loginSuccess', res)
+          this.$router.push({ path: '/about' })
+        })
+        .catch(error => {          
+          this.$vs.notify({
+          color: 'danger',
+          icon: 'error',
+          position: 'top-right',
+          title: 'Login Error',
+          text: error   })
+          
+        })
+    },
   },
   computed: {
     authError() {
