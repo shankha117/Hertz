@@ -1,10 +1,12 @@
+/* eslint-disable no-undef */
 import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-// import { getLocalUser } from './helper/login_auth'
 
-// const user = getLocalUser()
+import { getLocalUser } from './helper/Auth'
+const user = getLocalUser()
+
 export default new Vuex.Store({
   state: {
     sidebar: {
@@ -15,11 +17,12 @@ export default new Vuex.Store({
       search: '',
       app_title: 'Hertz.io'
     },
-    currentUserToken: null,
-    currentUserNmae: null,
+    currentUser: user,
+    // currentUserToken: null,
+    // currentUserNmae: null,
     isLoggedIn: false,
     loading: false,
-    auth_error: "",
+    auth_error: null,
     customers: [],
     showsidebar: {
       value: true
@@ -29,8 +32,8 @@ export default new Vuex.Store({
     isLoggedIn(state) {
       return state.isLoggedIn
     },
-    currentUserName(state) {
-      return state.currentUserNmae
+    currentUserdetails(state) {
+      return state.currentUser
     },
     authError(state) {
       return state.auth_error
@@ -45,12 +48,9 @@ export default new Vuex.Store({
       state.auth_error = null
       state.isLoggedIn = true
       state.loading = false
-      state.currentUserNmae = payload.username
-      state.currentUserToken = payload.token 
-      // state.currentUser = Object.assign({}, payload.username,{
-      //   token: payload.token
-      // })
-
+      // state.currentUserNmae = payload.username
+      // state.currentUserToken = payload.token 
+      state.currentUser = { username: payload.username, token: payload.token }
       localStorage.setItem('user', JSON.stringify(state.currentUser))
     },
     logout(state) {

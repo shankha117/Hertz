@@ -5,9 +5,7 @@
         <div class="overlay-left">
           <h2>Welcome Back!</h2>
           <p>Log in to your Hertz account</p>
-          <button class="invert" id="signIn" @click="signUp = !signUp">
-            Sign In
-          </button>
+          <button class="invert" id="signIn" @click="signUp = !signUp">Sign In</button>
         </div>
         <div class="overlay-right">
           <h2>Hello, Amigo!</h2>
@@ -15,42 +13,23 @@
             Not a member yet?
             <br />Sign Up Now
           </p>
-          <button class="invert" id="signUp" @click="signUp = !signUp">
-            Sign Up
-          </button>
+          <button class="invert" id="signUp" @click="signUp = !signUp">Sign Up</button>
         </div>
       </div>
     </div>
     <form class="sign-up">
       <h2>Create Account</h2>
       <div>Use your email for registration</div>
-      <input
-        type="text"
-        v-model="register.username"
-        placeholder="Name"
-        
-      />
-      <input
-        type="text"
-        v-model="register.email"
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        v-model="register.password"
-        placeholder="Password"
-      />
+      <input type="text" v-model="register.username" placeholder="Name" />
+      <input type="text" v-model="register.email" placeholder="Email" />
+      <input type="password" v-model="register.password" placeholder="Password" />
       <button @click="Registervalidation">Sign Up</button>
     </form>
     <form class="sign-in">
       <h2>Sign In</h2>
       <div>Use your account</div>
-      <input type="email" v-model="login.email" placeholder="Email"/>
-      <input
-        type="password"
-        v-model="login.password"
-        placeholder="Password"
-      />
+      <input type="text" v-model="login.email" placeholder="Email" />
+      <input type="password" v-model="login.password" placeholder="Password" />
       <button @click.stop="loginvalidation">Sign In</button>
       <a href="#">Forgot your password?</a>
     </form>
@@ -58,9 +37,9 @@
 </template>
 
 <script>
-import { login,register } from '../helper/Auth'
-import { log } from 'util';
-import { Login_validator,Register_validator } from '../helper/Validator'
+import { login, register } from '../helper/Auth'
+// import { log } from 'util';
+import { Login_validator, Register_validator } from '../helper/Validator'
 
 export default {
   name: 'signin',
@@ -79,95 +58,108 @@ export default {
     }
   },
   methods: {
-    loginvalidation(){
-     let email = this.login.email
+    loginvalidation() {
+      let email = this.login.email
       let password = this.login.password
-      let validation_res = Login_validator(email,password);
-      if(validation_res["status"] == true)
-      {
+      let validation_res = Login_validator(email, password)
+
+      // console.log(validation_res)
+
+      if (validation_res['dial'] == true) {
+        this.alreadyloggedin()
+      } else if (validation_res['status'] == true) {
         this.Loginauthenticate()
-      }
-      else{
-          this.$vs.notify({
+      } else {
+        this.$vs.notify({
           color: 'danger',
           icon: 'error',
           position: 'top-right',
           title: 'Login Error',
-          text:  validation_res["err"]
-        })  
+          text: validation_res['err']
+        })
       }
     },
     Loginauthenticate() {
-      
       this.$store.dispatch('login')
       login(this.$data.login)
         .then(res => {
-          console.log(res);
-          
           this.$store.commit('loginSuccess', res)
           this.$router.push({ path: '/about' })
         })
         .catch(error => {
-          
           // this.$store.commit('loginFailed', error )
           this.$vs.notify({
-          color: 'danger',
-          icon: 'error',
-          position: 'top-right',
-          title: 'Login Error',
-          text: error   })
-          
+            color: 'danger',
+            icon: 'error',
+            position: 'top-right',
+            title: 'Login Error',
+            text: error
+          })
         })
     },
-    Registervalidation(){
+    Registervalidation() {
       var username = this.register.username
       var email = this.register.email
       let password = this.register.password
-      let validation_res = Register_validator(username,email,password);
-
-      if(validation_res["status"] == true)
-      {
-        // console.log(validation_res);
-        this.Registerauthenticate()
+      let validation_res = Register_validator(username, email, password)
+      
+      if (validation_res['dial'] == true) {
+        this.alreadyloggedin()
       }
-
-      else{
-          this.$vs.notify({
+      else if (validation_res['status'] == true) {
+        this.Registerauthenticate()
+      } else {
+        this.$vs.notify({
           color: 'danger',
           icon: 'error',
           position: 'top-right',
           title: 'Login Error',
-          text:  validation_res["err"]
-              })  
-
+          text: validation_res['err']
+        })
       }
-  },
+    },
     Registerauthenticate() {
-      
       // this.$store.dispatch('login')
       register(this.$data.register)
         .then(res => {
-          console.log(res);
+          console.log(res)
           this.$store.commit('loginSuccess', res)
           this.$router.push({ path: '/about' })
         })
-        .catch(error => {          
+        .catch(error => {
           this.$vs.notify({
-          color: 'danger',
-          icon: 'error',
-          position: 'top-right',
-          title: 'Login Error',
-          text: error   })
-          
+            color: 'danger',
+            icon: 'error',
+            position: 'top-right',
+            title: 'Login Error',
+            text: error
+          })
         })
     },
+    alreadyloggedin() {
+      this.$vs.dialog({
+        type: 'confirm',
+        color: 'danger',
+        title: `Already Logged In`,
+        text: 'redirect to the home page with current login creds? Cancel to login with new creds',
+        accept: this.redirect,
+        cancel: this.delete_user
+      })
+    },
+    redirect() {
+      this.$router.push({ path: '/about' })
+    },
+    delete_user() {
+      console.log('delete me')
+
+      this.$store.commit('logout')
+    }
   },
   computed: {
     authError() {
       return this.$store.state.authError
-    }  
-    },
-  
+    }
+  }
 }
 </script>
 

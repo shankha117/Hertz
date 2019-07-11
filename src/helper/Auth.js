@@ -40,9 +40,21 @@ export async function register(credentials) {
 
 
 export function getLocalUser() {
-  const userStr = localStorage.getItem('user')
-  if (!userStr) {
-    return null
+  if (localStorage.getItem("user") === null)
+  {
+    return null;
   }
-  return JSON.parse(userStr)
+  else{
+    return JSON.parse(localStorage.getItem("user"))
+  }
+
+
+
+  // if (!localStorage.getItem('user')) {
+  //   return null
+  // }
+  // else{
+  //   return JSON.parse(userStr)
+  // }
+
 }

@@ -93,7 +93,8 @@ export default {
       return this.$store.state.sidebar
     },
     currentusername() {
-      return this.$store.getters.currentUserName
+      return this.$store.getters.currentUserdetails.username
+      
     }
   }
 }
