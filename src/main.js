@@ -6,11 +6,12 @@ import './plugins/vuesax.js'
 
 import VueAxios from './plugins/axios'
 
+import { navguards } from './helper/nav_guards.js'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios)
 
-
+navguards(store, router)
 
 new Vue({
   router,

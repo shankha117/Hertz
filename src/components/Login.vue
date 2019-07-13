@@ -23,14 +23,14 @@
       <input type="text" v-model="register.username" placeholder="Name" />
       <input type="text" v-model="register.email" placeholder="Email" />
       <input type="password" v-model="register.password" placeholder="Password" />
-      <button @click="Registervalidation">Sign Up</button>
+      <button type="button" @click="Registervalidation">Sign Up</button>
     </form>
     <form class="sign-in">
       <h2>Sign In</h2>
       <div>Use your account</div>
       <input type="text" v-model="login.email" placeholder="Email" />
       <input type="password" v-model="login.password" placeholder="Password" />
-      <button @click.stop="loginvalidation">Sign In</button>
+      <button type="button" @click.stop="loginvalidation">Sign In</button>
       <a href="#">Forgot your password?</a>
     </form>
   </div>
@@ -46,6 +46,8 @@ export default {
   data: () => {
     return {
       signUp: false,
+      login_err: 'Login Error',
+      register_err: 'Register Error',
       login: {
         email: '',
         password: ''
@@ -62,21 +64,12 @@ export default {
       let email = this.login.email
       let password = this.login.password
       let validation_res = Login_validator(email, password)
-
-      // console.log(validation_res)
-
       if (validation_res['dial'] == true) {
         this.alreadyloggedin()
       } else if (validation_res['status'] == true) {
         this.Loginauthenticate()
       } else {
-        this.$vs.notify({
-          color: 'danger',
-          icon: 'error',
-          position: 'top-right',
-          title: 'Login Error',
-          text: validation_res['err']
-        })
+        this.error_notifications(this.login_err, validation_res['err'])
       }
     },
     Loginauthenticate() {
@@ -84,17 +77,10 @@ export default {
       login(this.$data.login)
         .then(res => {
           this.$store.commit('loginSuccess', res)
-          this.$router.push({ path: '/about' })
+          this.$router.push({ path: '/home' })
         })
         .catch(error => {
-          // this.$store.commit('loginFailed', error )
-          this.$vs.notify({
-            color: 'danger',
-            icon: 'error',
-            position: 'top-right',
-            title: 'Login Error',
-            text: error
-          })
+          this.error_notifications(this.login_err, error)
         })
     },
     Registervalidation() {
@@ -102,38 +88,24 @@ export default {
       var email = this.register.email
       let password = this.register.password
       let validation_res = Register_validator(username, email, password)
-      
+
       if (validation_res['dial'] == true) {
         this.alreadyloggedin()
-      }
-      else if (validation_res['status'] == true) {
+      } else if (validation_res['status'] == true) {
         this.Registerauthenticate()
       } else {
-        this.$vs.notify({
-          color: 'danger',
-          icon: 'error',
-          position: 'top-right',
-          title: 'Login Error',
-          text: validation_res['err']
-        })
+        this.error_notifications(this.register_err, validation_res['err'])
       }
     },
     Registerauthenticate() {
-      // this.$store.dispatch('login')
       register(this.$data.register)
         .then(res => {
           console.log(res)
           this.$store.commit('loginSuccess', res)
-          this.$router.push({ path: '/about' })
+          this.$router.push({ path: '/home' })
         })
         .catch(error => {
-          this.$vs.notify({
-            color: 'danger',
-            icon: 'error',
-            position: 'top-right',
-            title: 'Login Error',
-            text: error
-          })
+          this.error_notifications(this.register_err, error)
         })
     },
     alreadyloggedin() {
@@ -141,18 +113,26 @@ export default {
         type: 'confirm',
         color: 'danger',
         title: `Already Logged In`,
-        text: 'redirect to the home page with current login creds? Cancel to login with new creds',
+        text:
+          'redirect to the home page with current login creds? Cancel to login with new creds',
         accept: this.redirect,
         cancel: this.delete_user
       })
     },
     redirect() {
-      this.$router.push({ path: '/about' })
+      this.$router.push({ path: '/home' })
     },
     delete_user() {
-      console.log('delete me')
-
       this.$store.commit('logout')
+    },
+    error_notifications(type, error_message) {
+      this.$vs.notify({
+        color: 'danger',
+        icon: 'error',
+        position: 'top-right',
+        title: type,
+        text: error_message
+      })
     }
   },
   computed: {

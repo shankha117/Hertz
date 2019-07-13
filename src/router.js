@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import About from './views/About.vue'
+import SignIn from './views/SignIn.vue'
 
 Vue.use(Router)
 
@@ -8,23 +10,30 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/home',
-      name: 'home',
-      component: Home
-    },
-    {
       path: '/about',
       name: 'about',
-
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: About,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
-      path: '/',
+      path: '/home',
+      name: 'home',
+      component: Home,
+      meta: {
+        requiresAuth: true
+      },
+    },
+    {
+      path: '/Login',
       name: 'Login',
-
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/SignIn.vue')
+      component: SignIn,
     }
   ]
 })
+
+
+
+  // component: () =>
+  //   import(/* webpackChunkName: "about" */ './views/SignIn.vue')

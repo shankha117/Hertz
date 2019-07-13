@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 
 const headers = {
@@ -7,19 +6,20 @@ const headers = {
 }
 
 export function login(credentials) {
-  console.log("I am in login AUTH");
-  console.log(credentials);
-
+  console.log('I am in login AUTH')
+  console.log(credentials)
 
   return new Promise((res, rej) => {
     axios
-      .post('http://0.0.0.0:8001/hertz/login', credentials, { headers: headers })
+      .post('http://0.0.0.0:8001/hertz/login', credentials, {
+        headers: headers
+      })
       .then(response => {
         res(response.data)
       })
       .catch(err => {
-        let err_message = err.response.data.Error;
-        rej(err_message);
+        let err_message = err.response.data.Error
+        rej(err_message)
       })
   })
 }
@@ -27,28 +27,25 @@ export function login(credentials) {
 export async function register(credentials) {
   return new Promise((res, rej) => {
     axios
-      .post('http://0.0.0.0:8001/hertz/register', credentials, { headers: headers })
+      .post('http://0.0.0.0:8001/hertz/register', credentials, {
+        headers: headers
+      })
       .then(response => {
         res(response.data)
       })
       .catch(err => {
-        let err_message = err.response.data.Error;
-        rej(err_message);
+        let err_message = err.response.data.Error
+        rej(err_message)
       })
   })
 }
 
-
 export function getLocalUser() {
-  if (localStorage.getItem("user") === null)
-  {
-    return null;
+  if (localStorage.getItem('user') === null) {
+    return null
+  } else {
+    return JSON.parse(localStorage.getItem('user'))
   }
-  else{
-    return JSON.parse(localStorage.getItem("user"))
-  }
-
-
 
   // if (!localStorage.getItem('user')) {
   //   return null
@@ -56,5 +53,4 @@ export function getLocalUser() {
   // else{
   //   return JSON.parse(userStr)
   // }
-
 }

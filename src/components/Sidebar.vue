@@ -24,6 +24,7 @@
           <a href="#">Update</a>
         </vs-navbar-item>
         <vs-button
+          @click.stop="logout"
           class="logout_button"
           color="dark"
           size="small"
@@ -50,7 +51,7 @@
           Configurations
         </vs-sidebar-item>
         <vs-sidebar-group title="Store">
-          <vs-sidebar-item index="2.1" icon="store" to="/home">
+          <vs-sidebar-item index="2.1" icon="store" to="/about">
             NLP
           </vs-sidebar-item>
           <vs-sidebar-item index="2.2" icon="nature_people">
@@ -87,16 +88,32 @@
 </template>
 
 <script>
+
+
 export default {
+  // data:()=>{
+  //   return{
+  //   currentusername:''
+  //   }
+
+  // },
+  methods:{
+    logout(){
+      this.$store.commit('logout')
+      this.$router.push({ path: '/Login'})
+    }
+  },
   computed: {
     sidebar() {
       return this.$store.state.sidebar
     },
-    currentusername() {
-      return this.$store.getters.currentUserdetails.username
-      
+    currentusername(){
+    return this.$store.getters.currentUsername
     }
-  }
+  },
+  // beforeMount(){
+  //     this.data.currentusername = this.$store.getters.currentUser.username
+  //   }
 }
 </script>
 
