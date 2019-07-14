@@ -64,6 +64,8 @@ export default {
       let email = this.login.email
       let password = this.login.password
       let validation_res = Login_validator(email, password)
+      console.log(validation_res);
+      
       if (validation_res['dial'] == true) {
         this.alreadyloggedin()
       } else if (validation_res['status'] == true) {
@@ -88,7 +90,8 @@ export default {
       var email = this.register.email
       let password = this.register.password
       let validation_res = Register_validator(username, email, password)
-
+      console.log(validation_res);
+      
       if (validation_res['dial'] == true) {
         this.alreadyloggedin()
       } else if (validation_res['status'] == true) {
@@ -113,8 +116,7 @@ export default {
         type: 'confirm',
         color: 'danger',
         title: `Already Logged In`,
-        text:
-          'redirect to the home page with current login creds? Cancel to login with new creds',
+        text:  `redirect to the home page with current login creds?Cancel to login with new creds`,
         accept: this.redirect,
         cancel: this.delete_user
       })
