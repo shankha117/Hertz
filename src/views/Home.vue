@@ -70,7 +70,7 @@ import 'vuesax/dist/vuesax.css'
 export default {
   name: 'home',
   beforeMount() {
-    this.$store.state.showsidebar.value = true
+    this.$store.state.showsidebar = true
   }
 }
 </script>

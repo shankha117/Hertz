@@ -23,7 +23,9 @@
         <vs-navbar-item index="2">
           <a href="#">Update</a>
         </vs-navbar-item>
-        <vs-button
+        <vs-input icon="search" v-model="search"/>
+        <vs-button color="dark" class="logout_button" type="line" icon="exit_to_app" @click.stop="logout">logout</vs-button>
+        <!-- <vs-button
           @click.stop="logout"
           class="logout_button"
           color="dark"
@@ -31,7 +33,7 @@
           type="gradient"
           icon="exit_to_app"
           >logout</vs-button
-        >
+        > -->
       </vs-navbar>
     </div>
     <vs-sidebar

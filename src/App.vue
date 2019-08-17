@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="sidebars" v-show="showside.value">
+    <div class="sidebars" v-show="showside">
       <Sidebar></Sidebar>
     </div>
     <router-view></router-view>
@@ -20,6 +20,8 @@ export default {
   computed: {
     showside() {
       return this.$store.state.showsidebar
+      console.log(this.$store.state.showsidebar);
+      
     }
   }
 }

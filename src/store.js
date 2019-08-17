@@ -17,16 +17,23 @@ export default new Vuex.Store({
       search: '',
       app_title: 'Hertz.io'
     },
-    showsidebar: {
-      value: true
-      },
+    showsidebar:true,
+    camera:{
+      start:true,
+      stop:true,
+      snap:true
+    },
     currentUser: user,
     isLoggedIn: false,
     loading: false,
     auth_error: null,
-    isadmin: false
+    isadmin: false,
+    loadingmodels:false
   },
   getters: {
+    isloadingmodels(state){
+      return state.loadingmodels
+    },
     isLoggedIn(state) {
       return state.isLoggedIn
     },
@@ -35,6 +42,15 @@ export default new Vuex.Store({
     },
     authError(state) {
       return state.auth_error
+    },
+    startvideo(state){
+      return state.camera.start
+    },
+    stopvideo(state){
+      return state.camera.stop
+    },
+    snap(){
+      return state.camera.snap
     }
   },
   mutations: {

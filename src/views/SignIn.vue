@@ -4,9 +4,11 @@
       <h1><span>Hertz</span>.io</h1>
       <img alt="Vue logo" src="../assets/AIw.png" />
     </div>
+  
     <div id="form">
       <Login class="Login"></Login>
     </div>
+    <div id="svg"></div>
   </div>
 </template>
 
@@ -19,7 +21,7 @@ export default {
     Login
   },
   beforeMount() {
-    this.$store.state.showsidebar.value = false
+    this.$store.state.showsidebar = false
   }
 }
 </script>
@@ -35,15 +37,18 @@ export default {
   font-family: Tahoma;
   font-size: 1.6rem;
   color: #222;
-  margin: 0px;
+  margin: auto;
   padding: 0px;
   height: 100vh;
+  width: 100vw;
   background: linear-gradient(to bottom, #323232 0%, #3f3f3f 40%, #1c1c1c 150%),
     linear-gradient(
       to top,
       rgba(255, 255, 255, 0.4) 0%,
       rgba(0, 0, 0, 0.25) 200%
     );
+  // background-image:url("../assets/undraw_Data_points_ubvs.svg");
+  background-size: cover;
   background-blend-mode: multiply;
   // background-color: #29323c;
   justify-content: center;
@@ -53,6 +58,8 @@ export default {
 #heding {
   display: inline;
   position: relative;
+  height: 20vh;
+  width: 100vw;
   // float: left;
 }
 img {
@@ -81,11 +88,26 @@ h1 {
   width: 700px;
   height: 450px;
 }
+#svg{
+  position: relative;
+  top: 12px;
+  left: 140px;
+  float: left;
+  // background: red;
+  height: 80vh;
+  width: 55vw;
+  // display: block;
+  
+  background-image: url("../assets/undraw_visual_data_b1wx.svg");
+  // height: 70%;
+  // width: 80%;
+
+}
 #form {
-  // width: 400px;
-  // display: flexbox;
+  height: 100px;
+  // width: 20vw;
   float: right;
-  padding-top: 7%;
-  padding-right: 50px;
+  padding-top: 8%;
+  padding-right: 20px;
 }
 </style>

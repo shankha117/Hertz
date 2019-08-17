@@ -64,7 +64,6 @@ export default {
       let email = this.login.email
       let password = this.login.password
       let validation_res = Login_validator(email, password)
-      console.log(validation_res);
       
       if (validation_res['dial'] == true) {
         this.alreadyloggedin()

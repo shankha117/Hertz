@@ -1,8 +1,8 @@
 <template>
     <div class="camera">
         <video autoplay class="live-feed"></video>
-            <button class="start" @click.stop="startvideo">Start Cam</button>
-            <button class="stop" @click.stop="stopvideo">Stop Cam</button>
+            <button v-show="getstartvideo" class="start" @click.stop="startvideo">Start Cam</button>
+            <button v-show="getstopvideo" class="stop" @click.stop="stopvideo">Stop Cam</button>
     </div>
 </template>
 
@@ -39,6 +39,17 @@ methods:{
         const video_feed = document.querySelector("#q");
         video_feed.style.background="white";
         }
+    },
+computed: {
+    getstartvideo() {
+      return this.$store.getters.startvideo
+    },
+    getstopvideo(){
+        return this.$store.getters.stopvideo
+    },
+    getsnap(){
+        return this.$store.getters.snap
+    }
 }
 }
 </script>
