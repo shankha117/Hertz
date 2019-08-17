@@ -3,6 +3,11 @@
     <div id="heading">
       <h1><span>Hertz</span>.io</h1>
       <img alt="Vue logo" src="../assets/AIw.png" />
+      <ul> 
+        <li><a href="">about</a></li>
+        <li><a href="">services</a></li>
+        <li><a href="">conatct</a></li>
+      </ul>
     </div>
   
     <div id="form">
@@ -62,6 +67,21 @@ export default {
   width: 100vw;
   // float: left;
 }
+#heading ul{
+  list-style-type: none;
+  float: right;
+  // margin-right: 20px;
+}
+#heading ul li {
+  display: inline-block;
+  padding-top: 30px;
+  padding-right: 22px;
+ 
+}
+#heading ul li a{
+  color: #fdfbfb;
+  font-family: 'Roboto Mono', monospace;
+}
 img {
   width: 80px;
   height: 70px;
@@ -72,8 +92,6 @@ h1 {
   color: #fdfbfb;
   padding-left: 50px;
   padding-top: 20px;
-  // display: inline;
-  // position: relative;
   float: left;
   font-family: sans-serif;
   font-weight: 100; // padding-left: 150px;
@@ -91,14 +109,16 @@ h1 {
 #svg{
   position: relative;
   top: 12px;
-  left: 140px;
+  left: 50px;
   float: left;
   // background: red;
   height: 80vh;
   width: 55vw;
   // display: block;
   
-  background-image: url("../assets/undraw_visual_data_b1wx.svg");
+  // background-image: url("../assets/undraw_visual_data_b1wx.svg");
+  background-image: url("../assets/undraw_at_the_park_2e47.svg");
+
   // height: 70%;
   // width: 80%;
 
@@ -107,7 +127,7 @@ h1 {
   height: 100px;
   // width: 20vw;
   float: right;
-  padding-top: 8%;
+  padding-top: 10%;
   padding-right: 20px;
 }
 </style>

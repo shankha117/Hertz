@@ -149,7 +149,7 @@ export default {
   position: relative;
   width: 768px;
   height: 480px;
-  // border-radius: 10px;
+  border-radius: 20px;
   border: none;
   overflow: hidden;
   box-shadow: 0 30px 30px rgba(0, 0, 0, 0.385), 0 10px 10px rgba(0, 0, 0, 0.385);
