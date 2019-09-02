@@ -53,16 +53,22 @@
           Configurations
         </vs-sidebar-item>
         <vs-sidebar-group title="Store">
-          <vs-sidebar-item index="2.1" icon="store" to="/about">
-            NLP
-          </vs-sidebar-item>
-          <vs-sidebar-item index="2.2" icon="nature_people">
+          <vs-sidebar-item index="2.1" icon="nature_people">
             OpenCV
           </vs-sidebar-item>
-          <vs-sidebar-item index="2.3" icon="style">
+
+          <vs-sidebar-item index="2.2" icon="style">
             SomeMagic
           </vs-sidebar-item>
         </vs-sidebar-group>
+        <vs-sidebar-group title="Face app">
+            <vs-sidebar-item index="2.3" icon="store" to="/about">
+              Recognize
+            </vs-sidebar-item>
+            <vs-sidebar-item index="2.4" icon="store">
+              Train
+            </vs-sidebar-item>
+          </vs-sidebar-group>
         <vs-sidebar-item index="2" icon="gavel">
           History
         </vs-sidebar-item>

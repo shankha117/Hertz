@@ -38,7 +38,6 @@
 
 <script>
 import { login, register } from '../helper/Auth'
-// import { log } from 'util';
 import { Login_validator, Register_validator } from '../helper/Validator'
 
 export default {

@@ -3,9 +3,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import { getLocalUser } from './helper/Auth'
-
+import * as faceapi from 'face-api.js'
 const user = getLocalUser()
-// console.log(user);
+
 
 export default new Vuex.Store({
   state: {
@@ -28,7 +28,7 @@ export default new Vuex.Store({
     loading: false,
     auth_error: null,
     isadmin: false,
-    loadingmodels:false
+    loadingmodels:true
   },
   getters: {
     isloadingmodels(state){
@@ -49,7 +49,7 @@ export default new Vuex.Store({
     stopvideo(state){
       return state.camera.stop
     },
-    snap(){
+    snap(state){
       return state.camera.snap
     }
   },
@@ -70,11 +70,27 @@ export default new Vuex.Store({
       localStorage.removeItem('user')
       state.isLoggedIn = false
       state.currentUser = null
+    },
+    modelsloaded(state){
+      state.loadingmodels = false      
+    },
+    modelloading(state) {
+      state.loadingmodels = true
+    },
+    sleep(state,ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
     }
   },
   actions: {
     login(context) {
       context.commit('login')
-    }
-  }
-})
+    },
+    loadmodel(context) {
+        return Promise.all([
+          faceapi.loadFaceRecognitionModel('/models'),
+          faceapi.loadFaceLandmarkModel('/models'),
+          faceapi.loadTinyFaceDetectorModel('/models'),
+          faceapi.loadFaceExpressionModel('/models')]).then(context.commit('modelsloaded'))
+    } 
+  }  
+    })

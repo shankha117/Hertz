@@ -13,7 +13,7 @@ name:"camera",
 	data: function () {
 		return {   
 		}
-	},
+    },
 methods:{
     startvideo(){
         if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
@@ -25,8 +25,6 @@ methods:{
                     const video = document.querySelector("video");
                     localStream = stream;
                     video.srcObject = stream;
-                        // window.localStream = stream;
-                        // document.querySelector('video').src = stream;
                 }
             )
         }
