@@ -38,6 +38,7 @@ methods:{
         video_feed.style.background="white";
         }
     },
+    
 computed: {
     getstartvideo() {
       return this.$store.getters.startvideo

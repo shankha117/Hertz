@@ -24,6 +24,8 @@
           <a href="#">Update</a>
         </vs-navbar-item>
         <vs-input icon="search" v-model="search"/>
+
+        <!-- <vs-input icon="search" v-model="search"/> -->
         <vs-button color="dark" class="logout_button" type="line" icon="exit_to_app" @click.stop="logout">logout</vs-button>
         <!-- <vs-button
           @click.stop="logout"

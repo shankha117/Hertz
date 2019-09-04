@@ -1,13 +1,17 @@
 <template>
   <div id="stream">
-    <Camera class="cam"></Camera>
-    
+    <Camera class="cam"></Camera>    
   </div>
 </template>
 
 <script>
 import Camera from '@/components/Camera.vue'
 import { log } from 'util';
+import Vue from 'vue'
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+
 
 export default {
   name: 'about',
@@ -29,19 +33,17 @@ export default {
           color: '#b3ffb3'
         })
       } else {
-        console.log("I AM HERE closing the ");
-        this.$vs.loading.close()
-        console.log('closed');
+        this.$vs.loading.close(),
+        this.$vs.notify({title:'Models Loaded Successfully',text:'Face App is ready',position: 'top-right',color:'success',icon:'check_box'})
       }
     },
   },
 
-mounted() {
-  this.$store.dispatch('loadmodel')
+async mounted() {
+  await this.$store.dispatch('loadmodel')
 },
   watch: {
     loading_models(newval) {
-      console.log("thsi is newval",newval);
       this.show_loading(newval)
     }
   },

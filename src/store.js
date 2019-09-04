@@ -1,8 +1,8 @@
-/* eslint-disable no-undef */
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import { getLocalUser } from './helper/Auth'
+import axios from 'axios'
 import * as faceapi from 'face-api.js'
 const user = getLocalUser()
 
@@ -28,7 +28,7 @@ export default new Vuex.Store({
     loading: false,
     auth_error: null,
     isadmin: false,
-    loadingmodels:true
+    loadingmodels: true
   },
   getters: {
     isloadingmodels(state){
@@ -72,25 +72,34 @@ export default new Vuex.Store({
       state.currentUser = null
     },
     modelsloaded(state){
-      state.loadingmodels = false      
+      state.loadingmodels = false
     },
     modelloading(state) {
       state.loadingmodels = true
     },
     sleep(state,ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
-    }
-  },
+    },
+},
   actions: {
     login(context) {
       context.commit('login')
     },
     loadmodel(context) {
-        return Promise.all([
-          faceapi.loadFaceRecognitionModel('/models'),
-          faceapi.loadFaceLandmarkModel('/models'),
-          faceapi.loadTinyFaceDetectorModel('/models'),
-          faceapi.loadFaceExpressionModel('/models')]).then(context.commit('modelsloaded'))
-    } 
-  }  
-    })
+      new Promise((res, rej) => {
+        axios.get('http://0.0.0.0:8001/hertz/sample')
+          .then(response => {
+            res(console.log("THSI IS RESP",response),
+            context.commit('modelsloaded'),
+            )
+          })
+          .catch(err => {
+            let err_message = err.response.data.Error
+            rej(err_message)
+          })
+      }).then(console.log("DONEEEEEEEEEEEEEEE")
+      )
+    }
+    }
+    
+})
